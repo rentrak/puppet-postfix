@@ -150,7 +150,7 @@ class postfix::server (
   # Work around for broken CentOS installs
   if ( $::operatingsystem =~ /RedHat|CentOS/ ) {
     exec { 'fix_broken_postfix':
-      command => '/sbin/service postfix stop && /usr/bin/killall master && /bin/rm /var/spool/postfix/pid/master.pid',
+      command => '/sbin/service postfix stop && /usr/bin/killall master && /bin/rm /var/spool/postfix/pid/master.pid'
       onlyif  => [ '/sbin/service postfix status', 'test -f /var/spool/postfix/pid/master.pid' ]
     }
     $servicereq = [ Exec['fix_broken_postfix'], Package[$package_name] ]
