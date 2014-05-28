@@ -147,19 +147,8 @@ class postfix::server (
   }
   package { $package_name: ensure => installed, alias => 'postfix' }
 
-  # Work around for broken CentOS installs
-  if ( $::operatingsystem =~ /RedHat|CentOS/ ) {
-    exec { 'fix_broken_postfix':
-      command => '/sbin/service postfix stop && /usr/bin/killall master && /bin/rm /var/spool/postfix/pid/master.pid'
-      onlyif  => [ '/sbin/service postfix status', 'test -f /var/spool/postfix/pid/master.pid' ]
-    }
-    $servicereq = [ Exec['fix_broken_postfix'], Package[$package_name] ]
-  } else {
-    $servicereq = Package[$package_name]
-  }
-
   service { 'postfix':
-    require   => $servicereq,
+    require   => Package[$package_name],
     enable    => true,
     ensure    => running,
     hasstatus => true,
