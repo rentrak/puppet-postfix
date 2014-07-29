@@ -815,7 +815,7 @@ smtpd_sender_restrictions =
 <% if @smtpd_delay_reject -%>
 smtpd_delay_reject = <%= @smtpd_delay_reject %>
 <% end -%>
-<% if !@smtpd_recipient_restrictions.empty? or postgrey -%>
+<% if !@smtpd_recipient_restrictions.empty? or @postgrey -%>
 smtpd_recipient_restrictions =
 <% @smtpd_recipient_restrictions.each do |line| -%>
   <%= line %>,
